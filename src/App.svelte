@@ -11,7 +11,7 @@
     [[5, 5], [5, 5]]
   ]
   var ap = [0, 4]
-  var aa = alakzatok[2]
+  var aa = alakzatok[[0,1,2,3,4].sort((a, b) => Math.random()-0.5)[0]]
   window.onkeydown = e => {
     if (e.key == "ArrowLeft" && ap[1] > 0) {
       ap[1]--
@@ -44,7 +44,7 @@
         })
       })    
       ap = [0, 4]
-      aa = alakzatok[Math.round(Math.random() * 5)]
+      aa = alakzatok[[0,1,2,3,4].sort((a, b) => Math.random()-0.5)[0]]
       pálya = pálya
     } else {
       ap[0]++
@@ -56,15 +56,17 @@
   <div class="pálya">
     {#each pálya as sor, i}
       {#each sor as oszlop, j}
+        {#if i<20}
         {#if i >= ap[0] && i < ap[0] + aa.length && j>=ap[1] && j<ap[1] + aa[0].length}
           <div class="elem e{aa[i - ap[0]][j-ap[1]]} e{oszlop}"></div>
         {:else}
           <div class="elem e{oszlop}"></div>
         {/if}
+        {/if}
       {/each}
     {/each}
   </div>
-  <button on:click = {
+  <button on:click = { e => 
     setInterval(() => {
       f()
     },1000)
