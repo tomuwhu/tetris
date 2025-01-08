@@ -1,0 +1,93 @@
+<script>
+  var pálya = Array.from({ length: 21 }, _ => 
+    Array.from({ length: 10 }, _ => 0)
+  )
+  pálya[20] = pálya[20].map(_ => 10)
+  var alakzatok = [
+    [[1, 0], [1, 0], [1, 1]],
+    [[0, 1], [0, 1], [1, 1]],
+    [[1, 1, 1], [0, 1, 0]],
+    [[1, 1, 1, 1]],
+    [[1, 1], [1, 1]]
+  ]
+  var ap = [0, 4]
+  var aa = alakzatok[2]
+  window.onkeydown = e => {
+    if (e.key == "ArrowLeft" && ap[1] > 0) {
+      ap[1]--
+    }
+    if (e.key == "ArrowRight" && ap[1] + aa[0].length < 10) {
+      ap[1]++
+    }
+    if (e.key == "ArrowDown") {
+      f()
+      ap[0]++
+    }
+    if (e.key == "ArrowUp") {
+      var fa = Array.from({length: aa[0].length}, _ => [])
+      aa.forEach((row, y) => {
+        row.forEach((c, x) => fa[x][aa.length-y-1] = c)
+      })
+      aa = fa
+    }
+  }
+  function f() {
+    let vége = false
+    aa.forEach((row, y) => {
+      row.forEach((cell, x) => {
+        if (cell && pálya[ap[0] + y + 1][ap[1] + x]) vége = true
+      })
+    })   
+    if (vége) {
+      aa.forEach((row, y) => {
+        row.forEach((cell, x) => {
+          if (cell) pálya[ap[0] + y][ap[1] + x] = cell
+        })
+      })    
+      ap = [0, 4]
+      aa = alakzatok[Math.round(Math.random()*5)]
+      pálya = pálya
+    } else {
+      ap[0]++
+    }
+  }
+</script>
+
+<main>
+  <div class="pálya">
+    {#each pálya as sor, i}
+      {#each sor as oszlop, j}
+        {#if i >= ap[0] && i < ap[0] + aa.length && j>=ap[1] && j<ap[1] + aa[0].length}
+          <div class="elem e{aa[i - ap[0]][j-ap[1]]} e{oszlop}"></div>
+        {:else}
+          <div class="elem e{oszlop}"></div>
+        {/if}
+      {/each}
+    {/each}
+  </div>
+  <button on:click = {
+    setInterval(() => {
+      f()
+    },1000)
+  }>Start</button>
+</main>
+
+<style>
+  .pálya {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(20, 1fr);
+  }
+  .elem {
+    border: 0.3px solid rgb(128, 49, 49);
+    width: 20px;
+    height: 20px;
+    text-align: center;
+  }
+  .e0 {
+    background-color: rgb(35, 6, 3);
+  }
+  .e1 {
+    background-color: rgb(0, 229, 255);
+  }
+</style>
