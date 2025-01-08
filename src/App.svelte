@@ -45,7 +45,6 @@
       })    
       ap = [0, 4]
       aa = alakzatok[[0,1,2,3,4].sort((a, b) => Math.random()-0.5)[0]]
-      pálya = pálya
     } else {
       ap[0]++
     }
