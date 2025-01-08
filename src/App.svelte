@@ -44,7 +44,7 @@
         })
       })    
       ap = [0, 4]
-      aa = alakzatok[Math.round(Math.random() * 6)]
+      aa = alakzatok[Math.round(Math.random() * 5)]
       pálya = pálya
     } else {
       ap[0]++
