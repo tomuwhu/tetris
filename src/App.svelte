@@ -5,10 +5,10 @@
   pálya[20] = pálya[20].map(_ => 10)
   var alakzatok = [
     [[1, 0], [1, 0], [1, 1]],
-    [[0, 1], [0, 1], [1, 1]],
-    [[1, 1, 1], [0, 1, 0]],
-    [[1, 1, 1, 1]],
-    [[1, 1], [1, 1]]
+    [[0, 2], [0, 2], [2, 2]],
+    [[3, 3, 3], [0, 3, 0]],
+    [[4, 4, 4, 4]],
+    [[5, 5], [5, 5]]
   ]
   var ap = [0, 4]
   var aa = alakzatok[2]
@@ -21,7 +21,6 @@
     }
     if (e.key == "ArrowDown") {
       f()
-      ap[0]++
     }
     if (e.key == "ArrowUp") {
       var fa = Array.from({length: aa[0].length}, _ => [])
@@ -45,7 +44,7 @@
         })
       })    
       ap = [0, 4]
-      aa = alakzatok[Math.round(Math.random()*5)]
+      aa = alakzatok[Math.round(Math.random() * 6)]
       pálya = pálya
     } else {
       ap[0]++
@@ -89,5 +88,20 @@
   }
   .e1 {
     background-color: rgb(0, 229, 255);
+  }
+  .e2 {
+    background-color: rgb(0, 229, 255);
+  }
+  .e3 {
+    background-color: rgb(183, 255, 0);
+  }
+  .e4 {
+    background-color: rgb(208, 0, 255);
+  }
+  .e5 {
+    background-color: rgb(255, 115, 0);
+  }
+  .e6 {
+    background-color: rgb(0, 8, 255);
   }
 </style>
