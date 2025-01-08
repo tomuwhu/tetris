@@ -1,4 +1,10 @@
 <script>
+  import { onMount } from "svelte";
+  onMount(() => {
+    setInterval(() => {
+      f()
+    },1000)
+  })
   var pálya = Array.from({ length: 21 }, _ => 
     Array.from({ length: 10 }, _ => 0)
   )
@@ -10,9 +16,12 @@
     [[4, 4, 4, 4]],
     [[5, 5], [5, 5]]
   ]
+  var gameover = false
+  var score = 0
   var ap = [0, 4]
   var aa = alakzatok[[0,1,2,3,4].sort((a, b) => Math.random()-0.5)[0]]
   window.onkeydown = e => {
+    if (gameover) return
     if (e.key == "ArrowLeft" && ap[1] > 0) {
       ap[1]--
     }
@@ -31,6 +40,7 @@
     }
   }
   function f() {
+    if (gameover) return
     let vége = false
     aa.forEach((row, y) => {
       row.forEach((cell, x) => {
@@ -45,13 +55,22 @@
       })    
       ap = [0, 4]
       aa = alakzatok[[0,1,2,3,4].sort((a, b) => Math.random()-0.5)[0]]
+      aa.forEach((row, y) => {
+        row.forEach((cell, x) => {
+          if (cell && pálya[ap[0] + y][ap[1] + x]) gameover = true
+        })
+      })    
     } else {
-      ap[0]++
+      if (!gameover) { 
+        ap[0]++
+        score++
+      }
     }
   }
 </script>
 
 <main>
+  <h2>Tetris</h2>
   <div class="pálya">
     {#each pálya as sor, i}
       {#each sor as oszlop, j}
@@ -65,11 +84,10 @@
       {/each}
     {/each}
   </div>
-  <button on:click = { e => 
-    setInterval(() => {
-      f()
-    },1000)
-  }>Start</button>
+  <div>Score: {score}</div>
+  {#if gameover}
+  <div>Game Over</div>
+  {/if}
 </main>
 
 <style>
